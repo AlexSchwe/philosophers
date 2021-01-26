@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   starting.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/09/01 19:50:07 by aschwere          #+#    #+#             */
+/*   Updated: 2020/11/07 02:38:51 by user42           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo_one.h"
 
-int check_arg(int argc, char **argv, t_args *args)
+int		check_arg(int argc, char **argv, t_args *args)
 {
 	t_var var;
 
@@ -39,7 +51,7 @@ void	start_mutexes(t_args *args)
 	}
 }
 
-void create_thread(t_args *args, int i)
+void	create_thread(t_args *args, int i)
 {
 	pthread_create(&args->philo[i].action, NULL, &philo_life,
 				&args->philo[i]);
@@ -70,7 +82,7 @@ void	start_threads(t_args *args)
 	}
 }
 
-int	set_philosophers(t_args *args)
+int		set_philosophers(t_args *args)
 {
 	int	i;
 
@@ -87,7 +99,8 @@ int	set_philosophers(t_args *args)
 		args->philo[i].channel = &args->channel;
 		args->philo[i].quit = &args->var.nb;
 		args->philo[i].fork_left = &args->forks[i];
-		args->philo[i].fork_right = &args->forks[(i - 1 + args->var.nb) % args->var.nb];
+		args->philo[i].fork_right =
+		&args->forks[(i - 1 + args->var.nb) % args->var.nb];
 	}
 	return (0);
 }

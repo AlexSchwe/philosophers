@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aschwere <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -17,7 +17,7 @@ unsigned long			get_time_since_start(t_var var)
 	return (get_time() - var.start);
 }
 
-int		order(long int n)
+int						order(long int n)
 {
 	int res;
 
@@ -30,7 +30,7 @@ int		order(long int n)
 	return (res);
 }
 
-char	*ft_write(char *res, long int n, int size)
+char					*ft_write(char *res, long int n, int size)
 {
 	int debut;
 
@@ -49,32 +49,7 @@ char	*ft_write(char *res, long int n, int size)
 	return (res);
 }
 
-char	*ft_itoa(int nb)
-{
-	char		*res;
-	int			size;
-	int long	n;
-
-	n = nb;
-	if (n < 0)
-	{
-		n *= -1;
-		if (!(res = malloc((order(n) + 2) * sizeof(char))))
-			return (NULL);
-		res[0] = '-';
-		size = order(n) + 1;
-	}
-	else
-	{
-		size = order(n);
-		if (!(res = malloc((order(n) + 1) * sizeof(char))))
-			return (NULL);
-	}
-	res = ft_write(res, n, size);
-	return (res);
-}
-
-size_t	ft_strlen(const char *s)
+size_t					ft_strlen(const char *s)
 {
 	size_t i;
 
@@ -86,7 +61,7 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-int	ft_atoi(const char *str)
+int						ft_atoi(const char *str)
 {
 	int res;
 	int i;

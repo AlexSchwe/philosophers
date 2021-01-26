@@ -15,8 +15,8 @@
 
 void	*philo_control(void *arg)
 {
-	t_philo	*philo;
-	unsigned long time_death;
+	t_philo			*philo;
+	unsigned long	time_death;
 
 	philo = (t_philo *)arg;
 	philo->death += philo->var.time_die;
@@ -38,29 +38,6 @@ void	*philo_control(void *arg)
 		}
 	}
 	return (NULL);
-}
-
-void	handle_eat(t_philo *philo)
-{
-	pthread_mutex_lock(&philo->state);
-	display_action(philo, EAT);
-	sleep_philo(philo, philo->var.time_eat);
-	pthread_mutex_unlock(&philo->state);
-	pthread_mutex_unlock(philo->fork_right);
-	pthread_mutex_unlock(philo->fork_left);
-}
-
-void handle_fork(t_philo *philo, pthread_mutex_t *fork)
-{
-	pthread_mutex_lock(fork);
-	philo->last_time = get_time_since_start(philo->var);
-	display_action(philo, FORK);
-}
-
-void handle_sleep(t_philo *philo)
-{
-	display_action(philo, SLEEP);
-	sleep_philo(philo, philo->var.time_sleep);
 }
 
 void	*philo_life(void *arg)
@@ -96,7 +73,7 @@ void	wait_for_all_threads(t_args *args)
 		pthread_join(args->philo[i].action, NULL);
 }
 
-int main(int argc, char **argv)
+int		main(int argc, char **argv)
 {
 	t_args *args;
 
