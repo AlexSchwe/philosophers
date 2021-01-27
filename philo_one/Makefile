@@ -19,6 +19,7 @@ INCLUDES =	-I Includes/
 SRCS = 	main.c \
 		utils.c \
 		utils_2.c \
+		action.c \
 		starting.c
 
 OBJS =	$(addprefix $(OBJDIR)/, $(SRCS:.c=.o))

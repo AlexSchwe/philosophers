@@ -81,6 +81,12 @@ int						order(long int n);
 
 void					update_last(t_philo *philo, unsigned long time_sleep);
 
+void					handle_eat(t_philo *philo);
+
+void					handle_fork(t_philo *philo, pthread_mutex_t *fork);
+
+void					handle_sleep(t_philo *philo);
+
 char					*ft_write(char *res, long int n, int size);
 
 char					*ft_itoa(int nb);
