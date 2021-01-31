@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_one.h"
+#include "philo_two.h"
 
 int		check_arg(int argc, char **argv, t_args *args)
 {
@@ -29,26 +29,29 @@ int		check_arg(int argc, char **argv, t_args *args)
 		return (write(2, SLEEP_ERROR, ft_strlen(SLEEP_ERROR)));
 	if (argv[5] && ((var.round = ft_atoi(argv[5])) <= 0))
 		return (write(2, ROUND_ERROR, ft_strlen(ROUND_ERROR)));
-	if (!(args->forks = malloc(sizeof(pthread_mutex_t) * var.nb)))
+	if (!(args->forks = malloc(sizeof(sem_t) * var.nb)))
 		return (write(2, strerror(errno), ft_strlen(strerror(errno))));
 	var.start = get_time();
 	args->var = var;
 	return (0);
 }
 
-void	start_mutexes(t_args *args)
+void	start_semaphores(t_args *args)
 {
 	int	i;
-	int nb;
 
-	nb = args->var.nb;
-	pthread_mutex_init(&args->channel, NULL);
+	args->forks = open_new_semaphore("/forks", args->var.nb);
+	if (!args->forks)
+		clean_and_exit(args, 1, "Failed to open semaphore : forks");
+	args->channel = open_new_semaphore("/channel", 1);
+	if (!args->channel)
+		clean_and_exit(args, 2, "Failed to open semaphore : channel");
 	i = -1;
 	while (++i < args->var.nb)
 	{
-		pthread_mutex_init(&args->forks[(i + nb - 1) % nb], NULL);
-		pthread_mutex_init(&args->philo[i].state, NULL);
-		pthread_mutex_init(&args->philo[i].death_time, NULL);
+		args->philo[i].state = open_new_semaphore(args->philo[i].name, 1);
+		if (!args->philo[i].state)
+			clean_and_exit(args, (i + 3), "Failed to open semaphore : state");
 	}
 }
 
@@ -88,6 +91,7 @@ int		set_philosophers(t_args *args)
 	int	i;
 
 	i = -1;
+	printf("entree set_philosophers\n");
 	if (!(args->philo = malloc(sizeof(t_philo) * args->var.nb)))
 		return (1);
 	while (++i < args->var.nb)
@@ -96,11 +100,9 @@ int		set_philosophers(t_args *args)
 			return (1);
 		args->philo[i].name = ft_itoa(i + 1);
 		args->philo[i].var = args->var;
-		args->philo[i].channel = &args->channel;
+		args->philo[i].channel = args->channel;
 		args->philo[i].quit = &args->var.nb;
-		args->philo[i].fork_left = &args->forks[i];
-		args->philo[i].fork_right =
-		&args->forks[(i - 1 + args->var.nb) % args->var.nb];
+		args->philo[i].forks = args->forks;
 	}
 	return (0);
 }
