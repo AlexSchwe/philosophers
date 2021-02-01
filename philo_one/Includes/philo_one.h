@@ -115,4 +115,6 @@ int						set_philosophers(t_args *args);
 
 unsigned long			get_time(void);
 
+int						ft_strcmp(char *s1, char *s2);
+
 #endif

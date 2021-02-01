@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_two.h                                        :+:      :+:    :+:   */
+/*   philo_three.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_TWO_H
-# define PHILO_TWO_H
+#ifndef PHILO_THREE_H
+# define PHILO_THREE_H
 # define NB_PHILO_ERROR "At least two philosophers, please\n"
 # define TIME_ERROR "Time to die must be a strictly positive number !\n"
 # define EAT_ERROR "Time to eat must be a strictly positive number !\n"
@@ -33,6 +33,7 @@
 # include <stddef.h>
 # include <errno.h>
 # include <stdio.h>
+# include <signal.h>
 
 typedef struct			s_var
 {
@@ -56,6 +57,7 @@ typedef struct			s_philo
 	sem_t				*state;
 	sem_t				*channel;
 	sem_t				*forks;
+	sem_t				*alive;
 }						t_philo;
 
 typedef struct			s_args
@@ -64,6 +66,8 @@ typedef struct			s_args
 	sem_t				*channel;
 	sem_t				*forks;
 	t_philo				*philo;
+	sem_t				*alive;
+	pid_t				*pids;
 }						t_args;
 
 unsigned long			get_time_since_start(t_var var);
@@ -100,7 +104,7 @@ void					start_sem(t_args *args);
 
 void					create_thread(t_args *args, int i);
 
-void					start_threads(t_args *args);
+void					start_processes(t_args *args);
 
 int						clear(t_args *args, int to_free);
 

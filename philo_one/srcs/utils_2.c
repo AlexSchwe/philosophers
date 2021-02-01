@@ -20,6 +20,18 @@ int				clear(t_args *args, int to_free)
 	return (0);
 }
 
+int	ft_strcmp(char *s1, char *s2)
+{
+	unsigned int i;
+
+	i = 0;
+	while (((s1[i]) == s2[i]) && (s1[i] || s2[i]))
+	{
+		i++;
+	}
+	return ((unsigned)(s1[i]) - (unsigned)(s2[i]));
+}
+
 char			*ft_itoa(int nb)
 {
 	char		*res;

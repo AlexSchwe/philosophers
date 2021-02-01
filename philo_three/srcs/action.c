@@ -10,21 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_one.h"
+#include "philo_three.h"
 
 void	handle_eat(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->state);
+	sem_wait(philo->state);
 	display_action(philo, EAT);
 	sleep_philo(philo, philo->var.time_eat);
-	pthread_mutex_unlock(&philo->state);
-	pthread_mutex_unlock(philo->fork_right);
-	pthread_mutex_unlock(philo->fork_left);
+	sem_post(philo->state);
+	sem_post(philo->forks);
+	sem_post(philo->forks);
 }
 
-void	handle_fork(t_philo *philo, pthread_mutex_t *fork)
+void	handle_fork(t_philo *philo)
 {
-	pthread_mutex_lock(fork);
+	sem_wait(philo->forks);
 	philo->last_time = get_time_since_start(philo->var);
 	display_action(philo, FORK);
 }
@@ -59,8 +59,8 @@ void	display_action(t_philo *philo, char *action)
 	while (*action)
 		buffer[++i] = *action++;
 	buffer[++i] = '\n';
-	pthread_mutex_lock(philo->channel);
+	sem_wait(philo->channel);
 	write(1, buffer, i);
-	if (ft_strcmp(action, DEATH))
-		pthread_mutex_unlock(philo->channel);
+	if (!ft_strcmp(action, DEATH))
+		sem_post(philo->channel);
 }

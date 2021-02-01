@@ -61,5 +61,6 @@ void	display_action(t_philo *philo, char *action)
 	buffer[++i] = '\n';
 	sem_wait(philo->channel);
 	write(1, buffer, i);
-	sem_post(philo->channel);
+	if (ft_strcmp(action, DEATH))
+		sem_post(philo->channel);
 }
