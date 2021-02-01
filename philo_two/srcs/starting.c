@@ -29,9 +29,6 @@ int		check_arg(int argc, char **argv, t_args *args)
 		return (write(2, SLEEP_ERROR, ft_strlen(SLEEP_ERROR)));
 	if (argv[5] && ((var.round = ft_atoi(argv[5])) <= 0))
 		return (write(2, ROUND_ERROR, ft_strlen(ROUND_ERROR)));
-	if (!(args->forks = malloc(sizeof(sem_t) * var.nb)))
-		return (write(2, strerror(errno), ft_strlen(strerror(errno))));
-	var.start = get_time();
 	args->var = var;
 	return (0);
 }
@@ -40,23 +37,26 @@ void	start_semaphores(t_args *args)
 {
 	int	i;
 
-	args->forks = open_new_semaphore("/forks", args->var.nb);
-	if (!args->forks)
-		clean_and_exit(args, 1, "Failed to open semaphore : forks");
-	args->channel = open_new_semaphore("/channel", 1);
-	if (!args->channel)
-		clean_and_exit(args, 2, "Failed to open semaphore : channel");
+	destroy_semaphores(args, args->var.nb);
+	args->var.forks = open_new_semaphore("/forks", args->var.nb);
+	if (!args->var.forks)
+		clear(args, "Failed to open semaphore : forks");
+	args->var.channel = open_new_semaphore("/channel", 1);
+	if (!args->var.channel)
+		clear(args, "Failed to open semaphore : channel");
 	i = -1;
 	while (++i < args->var.nb)
 	{
+		args->philo[i].var = args->var;
 		args->philo[i].state = open_new_semaphore(args->philo[i].name, 1);
 		if (!args->philo[i].state)
-			clean_and_exit(args, (i + 3), "Failed to open semaphore : state");
+			clear(args, "Failed to open semaphore : state");
 	}
 }
 
 void	create_thread(t_args *args, int i)
 {
+	args->philo[i].var = args->var;
 	pthread_create(&args->philo[i].action, NULL, &philo_life,
 				&args->philo[i]);
 	pthread_create(&args->philo[i].control, NULL, &philo_control,
@@ -99,10 +99,7 @@ int		set_philosophers(t_args *args)
 		if (!memset(&args->philo[i], 0, sizeof(t_philo)))
 			return (1);
 		args->philo[i].name = ft_itoa(i + 1);
-		args->philo[i].var = args->var;
-		args->philo[i].channel = args->channel;
 		args->philo[i].quit = &args->var.nb;
-		args->philo[i].forks = args->forks;
 	}
 	return (0);
 }

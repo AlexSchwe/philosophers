@@ -24,10 +24,6 @@ void	handle_eat(t_philo *philo)
 
 void	handle_fork(t_philo *philo)
 {
-	int sval;
-
-	sem_getvalue(philo->var.forks, &sval);
-	sem_wait(philo->var.forks);
 	philo->last_time = get_time_since_start(philo->var);
 	display_action(philo, FORK);
 }

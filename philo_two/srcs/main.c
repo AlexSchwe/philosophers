@@ -54,11 +54,7 @@ void	*philo_life(void *arg)
 		sem_post(philo->state);
 		handle_eat(philo);
 		if (philo->var.round-- == 0 && *philo->quit > 0)
-		{
-
 			*philo->quit -= 1;
-		}
-
 		handle_sleep(philo);
 		display_action(philo, THINK);
 	}
@@ -84,11 +80,11 @@ int		main(int argc, char **argv)
 	if (!(args = malloc(sizeof(t_args))))
 		return (1);
 	if (check_arg(argc, argv, args))
-		return (clear(args, 1));
+		return (clear(args, "wrong arguments"));
 	set_philosophers(args);
 	start_semaphores(args);
 	start_threads(args);
 	wait_for_all_threads(args);
-	clear(args, 1);
+	clear(args, "");
 	return (0);
 }

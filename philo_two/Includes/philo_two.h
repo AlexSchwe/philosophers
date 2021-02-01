@@ -42,6 +42,8 @@ typedef struct			s_var
 	int					time_eat;
 	int					time_sleep;
 	int					round;
+	sem_t				*forks;
+	sem_t				*channel;
 	unsigned long		start;
 }						t_var;
 
@@ -55,15 +57,11 @@ typedef struct			s_philo
 	pthread_t			action;
 	pthread_t			control;
 	sem_t				*state;
-	sem_t				*channel;
-	sem_t				*forks;
 }						t_philo;
 
 typedef struct			s_args
 {
 	t_var				var;
-	sem_t				*channel;
-	sem_t				*forks;
 	t_philo				*philo;
 }						t_args;
 
@@ -103,8 +101,6 @@ void					create_thread(t_args *args, int i);
 
 void					start_threads(t_args *args);
 
-int						clear(t_args *args, int to_free);
-
 int						set_philosophers(t_args *args);
 
 unsigned long			get_time(void);
@@ -121,10 +117,12 @@ char					*semaphore_name(char *number);
 
 sem_t					*open_new_semaphore(char *name, int value);
 
-int						clean_and_exit(t_args *args, int to_free, char *str);
+int						clear(t_args *args, char *str);
 
 void					start_semaphores(t_args *args);
 
 int						ft_strcmp(char *s1, char *s2);
+
+void					destroy_semaphores(t_args *args, int nb_philo);
 
 #endif
