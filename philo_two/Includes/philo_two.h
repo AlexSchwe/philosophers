@@ -32,6 +32,7 @@
 # include <semaphore.h>
 # include <stddef.h>
 # include <errno.h>
+# include <fcntl.h>
 # include <stdio.h>
 
 typedef struct			s_var

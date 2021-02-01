@@ -32,6 +32,7 @@
 # include <semaphore.h>
 # include <stddef.h>
 # include <errno.h>
+# include <fcntl.h>
 # include <stdio.h>
 # include <signal.h>
 
@@ -43,6 +44,9 @@ typedef struct			s_var
 	int					time_sleep;
 	int					round;
 	unsigned long		start;
+	sem_t				*channel;
+	sem_t				*forks;
+	sem_t				*alive;
 }						t_var;
 
 typedef struct			s_philo
@@ -55,18 +59,12 @@ typedef struct			s_philo
 	pthread_t			action;
 	pthread_t			control;
 	sem_t				*state;
-	sem_t				*channel;
-	sem_t				*forks;
-	sem_t				*alive;
 }						t_philo;
 
 typedef struct			s_args
 {
 	t_var				var;
-	sem_t				*channel;
-	sem_t				*forks;
 	t_philo				*philo;
-	sem_t				*alive;
 	pid_t				*pids;
 }						t_args;
 
@@ -106,8 +104,6 @@ void					create_thread(t_args *args, int i);
 
 void					start_processes(t_args *args);
 
-int						clear(t_args *args, int to_free);
-
 int						set_philosophers(t_args *args);
 
 unsigned long			get_time(void);
@@ -124,7 +120,7 @@ char					*semaphore_name(char *number);
 
 sem_t					*open_new_semaphore(char *name, int value);
 
-int						clean_and_exit(t_args *args, int to_free, char *str);
+int						clear(t_args *args, char *str);
 
 void					start_semaphores(t_args *args);
 

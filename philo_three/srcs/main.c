@@ -35,7 +35,7 @@ void	*philo_control(void *arg)
 	while (++i < philo->var.nb)
 	{
 		printf("posting\n");
-		sem_post(philo->alive);
+		sem_post(philo->var.alive);
 	}
 
 	return (NULL);
@@ -46,6 +46,8 @@ void	*philo_life(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
+	philo->last_time = get_time_since_start(philo->var);
+	display_action(philo, "entry thread\n");
 	while (1)
 	{
 		handle_fork(philo);
@@ -57,7 +59,7 @@ void	*philo_life(void *arg)
 		if (philo->var.round-- == 0)
 		{
 			printf("posting\n");
-			sem_post(philo->alive);
+			sem_post(philo->var.alive);
 		}
 		handle_sleep(philo);
 		display_action(philo, THINK);
@@ -72,10 +74,12 @@ int		main(int argc, char **argv)
 	if (!(args = malloc(sizeof(t_args))))
 		return (1);
 	if (check_arg(argc, argv, args))
-		return (clear(args, 1));
+	{
+		return (clear(args, "wrong args"));
+	}
 	set_philosophers(args);
 	start_semaphores(args);
 	start_processes(args);
-	clear(args, 1);
+	clear(args, "");
 	return (0);
 }

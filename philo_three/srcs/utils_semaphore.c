@@ -18,9 +18,12 @@ void	unlink_previous_semaphores(t_args *args)
 
 	sem_unlink("/forks");
 	sem_unlink("/channel");
+	sem_unlink("/alive");
 	i = -1;
 	while (++i < args->var.nb)
+	{
 		sem_unlink(args->philo[i].name);
+	}
 }
 
 char	*semaphore_name(char *number)

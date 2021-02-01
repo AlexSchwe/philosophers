@@ -5,20 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/09/08 20:16:50 by lemarabe          #+#    #+#             */
+/*   Created: 2020/09/08 20:16:50 by aschwere          #+#    #+#             */
 /*   Updated: 2020/11/16 18:35:26 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_three.h"
-
-int				clear(t_args *args, int to_free)
-{
-	if (!to_free)
-		free(args->forks);
-	free(args);
-	return (0);
-}
 
 char			*ft_itoa(int nb)
 {

@@ -18,13 +18,16 @@ void	handle_eat(t_philo *philo)
 	display_action(philo, EAT);
 	sleep_philo(philo, philo->var.time_eat);
 	sem_post(philo->state);
-	sem_post(philo->forks);
-	sem_post(philo->forks);
+	sem_post(philo->var.forks);
+	sem_post(philo->var.forks);
 }
 
 void	handle_fork(t_philo *philo)
 {
-	sem_wait(philo->forks);
+	int sval;
+
+	sem_getvalue(philo->var.forks, &sval);
+	sem_wait(philo->var.forks);
 	philo->last_time = get_time_since_start(philo->var);
 	display_action(philo, FORK);
 }
@@ -45,6 +48,7 @@ void	display_action(t_philo *philo, char *action)
 	char	*to_print;
 	char	buffer[SIZE_BUFF];
 	int		i;
+	int sval;
 
 	i = -1;
 	to_print = ft_itoa(philo->last_time);
@@ -59,8 +63,10 @@ void	display_action(t_philo *philo, char *action)
 	while (*action)
 		buffer[++i] = *action++;
 	buffer[++i] = '\n';
-	sem_wait(philo->channel);
+
+	sem_getvalue(philo->var.forks, &sval);
+	sem_wait(philo->var.channel);
 	write(1, buffer, i);
-	if (!ft_strcmp(action, DEATH))
-		sem_post(philo->channel);
+	if (ft_strcmp(action, DEATH))
+		sem_post(philo->var.channel);
 }
