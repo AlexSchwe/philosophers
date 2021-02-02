@@ -12,11 +12,6 @@
 
 #include "philo_two.h"
 
-unsigned long			get_time_since_start(t_var var)
-{
-	return (get_time() - var.start);
-}
-
 int						order(long int n)
 {
 	int res;

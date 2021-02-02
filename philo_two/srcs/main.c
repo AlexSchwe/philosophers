@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 #include "philo_two.h"
 
 void	*philo_control(void *arg)
@@ -20,20 +19,20 @@ void	*philo_control(void *arg)
 
 	philo = (t_philo *)arg;
 	philo->death += philo->var.time_die;
-	while (*philo->quit)
+	while (*philo->var.quit)
 	{
-		time_death = get_time_since_start(philo->var);
+		time_death = get_time() - philo->var.start;
 		sem_wait(philo->state);
 		if (philo->death >= time_death)
 		{
 			sem_post(philo->state);
-			usleep(2000);
+			usleep(2500);
 		}
 		else
 		{
 			philo->last_time = time_death;
 			display_action(philo, DEATH);
-			*philo->quit = 0;
+			*philo->var.quit = 0;
 			sem_post(philo->state);
 		}
 	}
@@ -45,16 +44,16 @@ void	*philo_life(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	while (*philo->quit)
-	{
+	while (*philo->var.quit)
+	{	
 		handle_fork(philo);
 		handle_fork(philo);
 		sem_wait(philo->state);
 		philo->death = philo->last_time + philo->var.time_die;
 		sem_post(philo->state);
 		handle_eat(philo);
-		if (philo->var.round-- == 0 && *philo->quit > 0)
-			*philo->quit -= 1;
+		if (philo->var.round-- == 0 && *philo->var.quit > 0)
+			*philo->var.quit -= 1;
 		handle_sleep(philo);
 		display_action(philo, THINK);
 	}

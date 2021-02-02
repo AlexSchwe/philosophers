@@ -64,8 +64,10 @@ void			update_last(t_philo *philo, unsigned long time_sleep)
 
 int				sleep_philo(t_philo *philo, unsigned long time_sleep)
 {
+	if (!(*philo->var.quit))
+		return (0);
 	usleep((philo->last_time + time_sleep
-	- get_time_since_start(philo->var)) * 1000);
+	- (get_time() - philo->var.start)) * 1000);
 	update_last(philo, time_sleep);
 	return (0);
 }

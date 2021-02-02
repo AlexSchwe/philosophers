@@ -23,6 +23,7 @@
 # define SLEEP "is sleeping\n"
 # define THINK "is thinking\n"
 # define DEATH "suddenly died, may his soul rest in peace\n"
+# define MAX(A, B) (((A) > (B)) ? (A) : (B)) 
 # define SIZE_BUFF 128
 # include <unistd.h>
 # include <string.h>
@@ -38,12 +39,14 @@
 typedef struct			s_var
 {
 	int					nb;
+	int					*quit;
 	int					time_die;
 	int					time_eat;
 	int					time_sleep;
 	int					round;
 	sem_t				*forks;
 	sem_t				*channel;
+	unsigned long		*last;
 	unsigned long		start;
 }						t_var;
 
@@ -52,7 +55,6 @@ typedef struct			s_philo
 	t_var				var;
 	unsigned long		last_time;
 	unsigned long		death;
-	int					*quit;
 	char				*name;
 	pthread_t			action;
 	pthread_t			control;

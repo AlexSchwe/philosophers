@@ -5,7 +5,7 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/09/01 19:50:07 by lemarabe          #+#    #+#             */
+/*   Created: 2020/09/01 19:50:07 by aschwere          #+#    #+#             */
 /*   Updated: 2020/11/07 02:38:51 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -17,11 +17,15 @@ void	destroy_semaphores(t_args *args, int nb_philo)
 	int	i;
 
 	sem_unlink("/forks");
+//	printf("erreur forks\n");
 	if (args->var.forks)
 		sem_close(args->var.forks);
+//	printf("erreur philo\n");
+//	printf("nb philo= %d\n", nb_philo);
 	if (nb_philo)
 	{
 		sem_unlink("/channel");
+//		printf("erreur channel\n");
 		if (args->var.channel)
 			sem_close(args->var.channel);
 		if (nb_philo > 1)
@@ -43,10 +47,14 @@ int		clear(t_args *args, char *str)
 
 	i = -1;
 	destroy_semaphores(args, args->var.nb);
+	free(args->var.last);
+	free(args->var.quit);
 	if (args->philo)
 	{
 		while (++i < args->var.nb)
+		{
 			free(args->philo[i].name);
+		}	
 		free(args->philo);
 	}
 	write(2, str, ft_strlen(str));

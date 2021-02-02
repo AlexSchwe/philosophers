@@ -29,6 +29,12 @@ int		check_arg(int argc, char **argv, t_args *args)
 		return (write(2, SLEEP_ERROR, ft_strlen(SLEEP_ERROR)));
 	if (argv[5] && ((var.round = ft_atoi(argv[5])) <= 0))
 		return (write(2, ROUND_ERROR, ft_strlen(ROUND_ERROR)));
+	if (!(var.quit = malloc(sizeof(int))))
+		return (clear(args, "erreur allocation"));
+	if (!(var.last = malloc(sizeof(unsigned long))))
+		return (clear(args, "erreur allocation"));
+	*var.quit = var.nb;
+	*var.last = 0;
 	args->var = var;
 	return (0);
 }
@@ -47,7 +53,6 @@ void	start_semaphores(t_args *args)
 	i = -1;
 	while (++i < args->var.nb)
 	{
-		args->philo[i].var = args->var;
 		args->philo[i].state = open_new_semaphore(args->philo[i].name, 1);
 		if (!args->philo[i].state)
 			clear(args, "Failed to open semaphore : state");
@@ -91,15 +96,12 @@ int		set_philosophers(t_args *args)
 	int	i;
 
 	i = -1;
-	printf("entree set_philosophers\n");
 	if (!(args->philo = malloc(sizeof(t_philo) * args->var.nb)))
 		return (1);
 	while (++i < args->var.nb)
 	{
-		if (!memset(&args->philo[i], 0, sizeof(t_philo)))
-			return (1);
 		args->philo[i].name = ft_itoa(i + 1);
-		args->philo[i].quit = &args->var.nb;
+		args->philo[i].last_time = 0;
 	}
 	return (0);
 }
