@@ -59,3 +59,11 @@ int		clean_and_exit(t_args *args, int to_free, char *str)
 	write(2, "\n", 1);
 	exit(0);
 }
+
+int		clear(t_args *args, int to_free)
+{
+	if (!to_free)
+		free(args->forks);
+	free(args);
+	return (0);
+}
