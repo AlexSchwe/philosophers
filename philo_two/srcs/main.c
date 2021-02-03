@@ -72,6 +72,11 @@ void	wait_for_all_threads(t_args *args)
 		pthread_join(args->philo[i].action, NULL);
 }
 
+/*
+*** Le memeset permet d'initialiser à 0x0 tous les pointeurs contenus dans args,
+*** ce qui est pratique pour les libérer ensuite 
+*/
+
 int		main(int argc, char **argv)
 {
 	t_args *args;

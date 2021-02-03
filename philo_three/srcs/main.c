@@ -33,11 +33,7 @@ void	*philo_control(void *arg)
 	sem_post(philo->state);
 	i = -1;
 	while (++i < philo->var.nb)
-	{
-		printf("posting\n");
 		sem_post(philo->var.alive);
-	}
-
 	return (NULL);
 }
 
@@ -47,7 +43,6 @@ void	*philo_life(void *arg)
 
 	philo = (t_philo *)arg;
 	philo->last_time = get_time_since_start(philo->var);
-	display_action(philo, "entry thread\n");
 	while (1)
 	{
 		handle_fork(philo);
@@ -73,10 +68,9 @@ int		main(int argc, char **argv)
 
 	if (!(args = malloc(sizeof(t_args))))
 		return (1);
+	args = memset(args, 0, sizeof(t_args));
 	if (check_arg(argc, argv, args))
-	{
 		return (clear(args, "wrong args"));
-	}
 	set_philosophers(args);
 	start_semaphores(args);
 	start_processes(args);

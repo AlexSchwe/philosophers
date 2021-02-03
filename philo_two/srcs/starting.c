@@ -18,17 +18,17 @@ int		check_arg(int argc, char **argv, t_args *args)
 
 	var.round = -1;
 	if (argc < 4 || argc > 6)
-		return (write(2, NB_ARGS, ft_strlen(NB_ARGS)));
+		return (clear(args, NB_ARGS));
 	if ((var.nb = ft_atoi(argv[1])) < 2)
-		return (write(2, NB_PHILO_ERROR, ft_strlen(NB_PHILO_ERROR)));
+		return (clear(args, NB_PHILO_ERROR));
 	if ((var.time_die = ft_atoi(argv[2])) <= 0)
-		return (write(2, TIME_ERROR, ft_strlen(TIME_ERROR)));
+		return (clear(args, TIME_ERROR));
 	if ((var.time_eat = ft_atoi(argv[3])) <= 0)
-		return (write(2, EAT_ERROR, ft_strlen(EAT_ERROR)));
+		return (clear(args, EAT_ERROR));
 	if ((var.time_sleep = ft_atoi(argv[4])) <= 0)
-		return (write(2, SLEEP_ERROR, ft_strlen(SLEEP_ERROR)));
+		return (clear(args, SLEEP_ERROR));
 	if (argv[5] && ((var.round = ft_atoi(argv[5])) <= 0))
-		return (write(2, ROUND_ERROR, ft_strlen(ROUND_ERROR)));
+		return (clear(args, ROUND_ERROR));
 	if (!(var.quit = malloc(sizeof(int))))
 		return (clear(args, "erreur allocation"));
 	*var.quit = var.nb;
