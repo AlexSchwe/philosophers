@@ -126,4 +126,5 @@ void					start_semaphores(t_args *args);
 
 int						ft_strcmp(char *s1, char *s2);
 
+void					start_monitoring(t_args *args);
 #endif

@@ -50,7 +50,7 @@ int		clear(t_args *args, char *str)
 		while (++i < args->var.nb)
 		{
 			free(args->philo[i].name);
-		}	
+		}
 		free(args->philo);
 	}
 	write(2, str, ft_strlen(str));

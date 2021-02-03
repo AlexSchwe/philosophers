@@ -45,7 +45,7 @@ void	*philo_life(void *arg)
 
 	philo = (t_philo *)arg;
 	while (*philo->var.quit)
-	{	
+	{
 		handle_fork(philo);
 		handle_fork(philo);
 		sem_wait(philo->state);
@@ -74,7 +74,7 @@ void	wait_for_all_threads(t_args *args)
 
 /*
 *** Le memeset permet d'initialiser à 0x0 tous les pointeurs contenus dans args,
-*** ce qui est pratique pour les libérer ensuite 
+*** ce qui est pratique pour les libérer ensuite
 */
 
 int		main(int argc, char **argv)

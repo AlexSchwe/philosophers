@@ -12,11 +12,23 @@
 
 #include "philo_three.h"
 
+void	start_monitoring(t_args *args)
+{
+	int i;
+
+	i = -1;
+	while (++i < args->var.nb)
+		sem_wait(args->var.alive);
+	i = -1;
+	while (++i < args->var.nb)
+		kill(args->pids[i], SIGKILL);
+}
+
 void	*philo_control(void *arg)
 {
 	t_philo			*philo;
 	unsigned long	time_death;
-	int i;
+	int				i;
 
 	philo = (t_philo *)arg;
 	philo->death += philo->var.time_die;

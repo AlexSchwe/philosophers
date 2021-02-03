@@ -12,7 +12,7 @@
 
 #include "philo_one.h"
 
-int	ft_strcmp(char *s1, char *s2)
+int				ft_strcmp(char *s1, char *s2)
 {
 	unsigned int i;
 

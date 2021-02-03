@@ -41,7 +41,7 @@ typedef struct			s_var
 	int					time_sleep;
 	int					round;
 	unsigned long		start;
-	int 				*quit;
+	int					*quit;
 	pthread_mutex_t		channel;
 }						t_var;
 
