@@ -19,7 +19,7 @@ int		clear(t_args *args, char *str)
 	i = -1;
 	if (args->pids)
 		free(args->pids);
-	unlink_previous_semaphores(args);
+	destroy_semaphores(args);
 	if (args->philo)
 	{
 		while (++i < args->var.nb)

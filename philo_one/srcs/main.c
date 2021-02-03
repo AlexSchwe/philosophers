@@ -52,14 +52,11 @@ void	*philo_life(void *arg)
 		pthread_mutex_lock(&philo->state);
 		philo->death = philo->last_time + philo->var.time_die;
 		pthread_mutex_unlock(&philo->state);
-		if (*philo->var.quit)
-			handle_eat(philo);
+		handle_eat(philo);
 		if (philo->var.round-- == 0 && *philo->var.quit > 0)
 			*philo->var.quit -= 1;
-		if (*philo->var.quit)
-			handle_sleep(philo);
-		if (*philo->var.quit)
-			display_action(philo, THINK);
+		handle_sleep(philo);
+		display_action(philo, THINK);
 	}
 	return (NULL);
 }

@@ -85,7 +85,7 @@ int		main(int argc, char **argv)
 		return (1);
 	args = memset(args, 0, sizeof(t_args));
 	if (check_arg(argc, argv, args))
-		return (clear(args, "wrong arguments"));
+		return (!clear(args, "wrong arguments"));
 	set_philosophers(args);
 	start_semaphores(args);
 	start_threads(args);

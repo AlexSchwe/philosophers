@@ -46,6 +46,8 @@ void	display_action(t_philo *philo, char *action)
 	char	buffer[SIZE_BUFF];
 	int		i;
 
+	if (!*philo->var.quit)
+		return ;
 	i = -1;
 	to_print = ft_itoa(philo->last_time);
 	while (to_print[++i])

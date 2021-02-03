@@ -44,8 +44,10 @@ void	display_action(t_philo *philo, char *action)
 	char	*to_print;
 	char	buffer[SIZE_BUFF];
 	int		i;
+	int death;
 
 	i = -1;
+	death = ft_strcmp(action, DEATH);
 	to_print = ft_itoa(philo->last_time);
 	while (to_print[++i])
 		buffer[i] = to_print[i];
@@ -60,6 +62,6 @@ void	display_action(t_philo *philo, char *action)
 	buffer[++i] = '\n';
 	sem_wait(philo->var.channel);
 	write(1, buffer, i);
-	if (ft_strcmp(action, DEATH))
+	if (death)
 		sem_post(philo->var.channel);
 }

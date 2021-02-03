@@ -114,7 +114,7 @@ void					handle_fork(t_philo *philo);
 
 void					handle_sleep(t_philo *philo);
 
-void					unlink_previous_semaphores(t_args *args);
+void					destroy_semaphores(t_args *args);
 
 char					*semaphore_name(char *number);
 

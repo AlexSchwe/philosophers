@@ -39,6 +39,7 @@ void	start_semaphores(t_args *args)
 {
 	int	i;
 
+	destroy_semaphores(args);
 	args->var.forks = open_new_semaphore("/forks", args->var.nb);
 	if (!args->var.forks)
 		clear(args, "Failed to open semaphore : forks");
@@ -65,7 +66,6 @@ void	start_semaphores(t_args *args)
 void	create_thread(t_args *args, int i)
 {
 	args->philo[i].last_time = get_time_since_start(args->var);
-	display_action(&args->philo[i], "before thread\n");
 	pthread_create(&args->philo[i].action, NULL, &philo_life,
 				&args->philo[i]);
 	pthread_create(&args->philo[i].control, NULL, &philo_control,

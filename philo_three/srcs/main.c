@@ -17,6 +17,7 @@ void	start_monitoring(t_args *args)
 	int i;
 
 	i = -1;
+
 	while (++i < args->var.nb)
 		sem_wait(args->var.alive);
 	i = -1;
@@ -24,6 +25,7 @@ void	start_monitoring(t_args *args)
 		kill(args->pids[i], SIGKILL);
 }
 
+//faire un quit pour bloquer l'affichage
 void	*philo_control(void *arg)
 {
 	t_philo			*philo;
@@ -37,7 +39,7 @@ void	*philo_control(void *arg)
 	{
 		time_death = get_time_since_start(philo->var);
 		sem_post(philo->state);
-		usleep(2000);
+		usleep(1000);
 		sem_wait(philo->state);
 	}
 	philo->last_time = time_death;
@@ -64,10 +66,7 @@ void	*philo_life(void *arg)
 		sem_post(philo->state);
 		handle_eat(philo);
 		if (philo->var.round-- == 0)
-		{
-			printf("posting\n");
 			sem_post(philo->var.alive);
-		}
 		handle_sleep(philo);
 		display_action(philo, THINK);
 	}
@@ -82,10 +81,10 @@ int		main(int argc, char **argv)
 		return (1);
 	args = memset(args, 0, sizeof(t_args));
 	if (check_arg(argc, argv, args))
-		return (clear(args, "wrong args"));
+		return (!clear(args, "wrong args"));
 	set_philosophers(args);
 	start_semaphores(args);
 	start_processes(args);
-	clear(args, "");
+	clear(args, "Les philosophes ont disparu");
 	return (0);
 }

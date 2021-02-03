@@ -12,17 +12,28 @@
 
 #include "philo_three.h"
 
-void	unlink_previous_semaphores(t_args *args)
+void	destroy_semaphores(t_args *args)
 {
 	int	i;
 
 	sem_unlink("/forks");
+	if (args->var.forks)
+		sem_close(args->var.forks);
 	sem_unlink("/channel");
+	if (args->var.channel)
+		sem_close(args->var.channel);
 	sem_unlink("/alive");
-	i = -1;
-	while (++i < args->var.nb)
+	if (args->var.alive)
+		sem_close(args->var.alive);
+	if (args->var.nb > 1)
 	{
-		sem_unlink(args->philo[i].name);
+		i = -1;
+		while (++i < args->var.nb)
+		{
+			sem_unlink(args->philo[i].name);
+			if ((args->philo[i].state))
+				sem_close(args->philo[i].state);
+		}
 	}
 }
 
