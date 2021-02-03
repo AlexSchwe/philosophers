@@ -78,6 +78,7 @@ int		main(int argc, char **argv)
 
 	if (!(args = malloc(sizeof(t_args))))
 		return (1);
+	args = memset(args, 0, sizeof(t_args));
 	if (check_arg(argc, argv, args))
 		return (clear(args, "wrong arguments"));
 	set_philosophers(args);

@@ -31,10 +31,7 @@ int		check_arg(int argc, char **argv, t_args *args)
 		return (write(2, ROUND_ERROR, ft_strlen(ROUND_ERROR)));
 	if (!(var.quit = malloc(sizeof(int))))
 		return (clear(args, "erreur allocation"));
-	if (!(var.last = malloc(sizeof(unsigned long))))
-		return (clear(args, "erreur allocation"));
 	*var.quit = var.nb;
-	*var.last = 0;
 	args->var = var;
 	return (0);
 }
