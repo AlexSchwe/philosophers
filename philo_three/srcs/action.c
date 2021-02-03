@@ -44,7 +44,7 @@ void	display_action(t_philo *philo, char *action)
 	char	*to_print;
 	char	buffer[SIZE_BUFF];
 	int		i;
-	int death;
+	int		death;
 
 	i = -1;
 	death = ft_strcmp(action, DEATH);

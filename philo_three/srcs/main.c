@@ -17,7 +17,6 @@ void	start_monitoring(t_args *args)
 	int i;
 
 	i = -1;
-
 	while (++i < args->var.nb)
 		sem_wait(args->var.alive);
 	i = -1;
@@ -25,7 +24,6 @@ void	start_monitoring(t_args *args)
 		kill(args->pids[i], SIGKILL);
 }
 
-//faire un quit pour bloquer l'affichage
 void	*philo_control(void *arg)
 {
 	t_philo			*philo;
