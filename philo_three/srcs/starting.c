@@ -39,7 +39,6 @@ void	start_semaphores(t_args *args)
 {
 	int	i;
 
-	unlink_previous_semaphores(args);
 	args->var.forks = open_new_semaphore("/forks", args->var.nb);
 	if (!args->var.forks)
 		clear(args, "Failed to open semaphore : forks");
@@ -59,10 +58,7 @@ void	start_semaphores(t_args *args)
 	}
 }
 
-/*
-*** wait for the actions, that never return before the process is killed
-*/
-
+//wait for the actions, that never return
 void	create_thread(t_args *args, int i)
 {
 	args->philo[i].last_time = get_time_since_start(args->var);
@@ -74,20 +70,34 @@ void	create_thread(t_args *args, int i)
 	pthread_join(args->philo[i].action, NULL);
 }
 
+void start_monitoring(t_args *args)
+{
+	int i;
+
+	i = -1;
+	while (++i < args->var.nb)
+		sem_wait(args->var.alive);
+	i = -1;
+	while (++i < args->var.nb)
+		kill(args->pids[i], SIGKILL);
+}
+
+
+// pids contiendra tous les process des philosophes
 void	start_processes(t_args *args)
 {
-	int		i;
-	pid_t	*pids;
+	int	i;
+	pid_t *pids;
 
 	if (!(pids = malloc((args->var.nb) * sizeof(pid_t))))
-		return ;
+		return;
 	i = -1;
 	args->pids = pids;
 	args->var.start = get_time();
 	while (++i < args->var.nb)
 	{
 		if ((pids[i] = fork()) < 0)
-			return ;
+			return;
 		if (pids[i] == 0)
 			create_thread(args, i);
 		usleep(100);

@@ -23,7 +23,10 @@ void	handle_eat(t_philo *philo)
 void	handle_fork(t_philo *philo)
 {
 	sem_wait(philo->var.forks);
+	//printf("get time = %lu\n", get_time());
+	//printf("start = %lu\n", philo->var.start);
 	philo->last_time = get_time() - philo->var.start;
+	//printf("after get time, last time = %lu\n", philo->last_time);
 	display_action(philo, FORK);
 }
 
@@ -50,6 +53,8 @@ void	display_action(t_philo *philo, char *action)
 		return ;
 	sem_wait(philo->var.channel);
 	i = -1;
+	//*philo->var.last = MAX(philo->last_time, *philo->var.last);
+	//philo->last_time = *philo->var.last;
 	to_print = ft_itoa(philo->last_time);
 	while (to_print[++i])
 		buffer[i] = to_print[i];

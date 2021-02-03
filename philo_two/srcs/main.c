@@ -45,7 +45,7 @@ void	*philo_life(void *arg)
 
 	philo = (t_philo *)arg;
 	while (*philo->var.quit)
-	{
+	{	
 		handle_fork(philo);
 		handle_fork(philo);
 		sem_wait(philo->state);

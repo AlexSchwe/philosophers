@@ -17,11 +17,15 @@ void	destroy_semaphores(t_args *args, int nb_philo)
 	int	i;
 
 	sem_unlink("/forks");
+//	printf("erreur forks\n");
 	if (args->var.forks)
 		sem_close(args->var.forks);
+//	printf("erreur philo\n");
+//	printf("nb philo= %d\n", nb_philo);
 	if (nb_philo)
 	{
 		sem_unlink("/channel");
+//		printf("erreur channel\n");
 		if (args->var.channel)
 			sem_close(args->var.channel);
 		if (nb_philo > 1)
@@ -50,7 +54,7 @@ int		clear(t_args *args, char *str)
 		while (++i < args->var.nb)
 		{
 			free(args->philo[i].name);
-		}
+		}	
 		free(args->philo);
 	}
 	write(2, str, ft_strlen(str));

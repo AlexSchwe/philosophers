@@ -23,6 +23,7 @@
 # define SLEEP "is sleeping\n"
 # define THINK "is thinking\n"
 # define DEATH "suddenly died, may his soul rest in peace\n"
+# define MAX(A, B) (((A) > (B)) ? (A) : (B)) 
 # define SIZE_BUFF 128
 # include <unistd.h>
 # include <string.h>

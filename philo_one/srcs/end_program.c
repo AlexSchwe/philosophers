@@ -5,7 +5,7 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/09/01 19:50:07 by lemarabe          #+#    #+#             */
+/*   Created: 2020/09/01 19:50:07 by aschwere          #+#    #+#             */
 /*   Updated: 2020/11/07 02:38:51 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -58,12 +58,4 @@ int		clean_and_exit(t_args *args, int to_free, char *str)
 	write(2, str, ft_strlen(str));
 	write(2, "\n", 1);
 	exit(0);
-}
-
-int		clear(t_args *args, int to_free)
-{
-	if (!to_free)
-		free(args->forks);
-	free(args);
-	return (0);
 }

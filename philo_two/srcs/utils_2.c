@@ -37,7 +37,7 @@ char			*ft_itoa(int nb)
 	return (res);
 }
 
-int				ft_strcmp(char *s1, char *s2)
+int	ft_strcmp(char *s1, char *s2)
 {
 	unsigned int i;
 
