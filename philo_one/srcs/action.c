@@ -59,8 +59,8 @@ void	display_action(t_philo *philo, char *action)
 	while (*action)
 		buffer[++i] = *action++;
 	buffer[++i] = '\n';
-	pthread_mutex_lock(philo->channel);
+	pthread_mutex_lock(&philo->var.channel);
 	write(1, buffer, i);
 	if (ft_strcmp(action, DEATH))
-		pthread_mutex_unlock(philo->channel);
+		pthread_mutex_unlock(&philo->var.channel);
 }

@@ -20,6 +20,7 @@ SRCS = 	main.c \
 		utils.c \
 		utils_2.c \
 		action.c \
+		end_program.c \
 		starting.c
 
 OBJS =	$(addprefix $(OBJDIR)/, $(SRCS:.c=.o))

@@ -41,6 +41,8 @@ typedef struct			s_var
 	int					time_sleep;
 	int					round;
 	unsigned long		start;
+	int 				*quit;
+	pthread_mutex_t		channel;
 }						t_var;
 
 typedef struct			s_philo
@@ -48,13 +50,11 @@ typedef struct			s_philo
 	t_var				var;
 	unsigned long		last_time;
 	unsigned long		death;
-	int					*quit;
 	char				*name;
 	pthread_t			action;
 	pthread_t			control;
 	pthread_mutex_t		death_time;
 	pthread_mutex_t		state;
-	pthread_mutex_t		*channel;
 	pthread_mutex_t		*fork_left;
 	pthread_mutex_t		*fork_right;
 }						t_philo;
@@ -63,7 +63,6 @@ typedef struct			s_args
 {
 	t_var				var;
 	pthread_mutex_t		*forks;
-	pthread_mutex_t		channel;
 	t_philo				*philo;
 }						t_args;
 
@@ -109,7 +108,7 @@ void					create_thread(t_args *args, int i);
 
 void					start_threads(t_args *args);
 
-int						clear(t_args *args, int to_free);
+int						clear(t_args *args, char *str);
 
 int						set_philosophers(t_args *args);
 

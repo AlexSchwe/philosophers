@@ -12,14 +12,6 @@
 
 #include "philo_one.h"
 
-int				clear(t_args *args, int to_free)
-{
-	if (!to_free)
-		free(args->forks);
-	free(args);
-	return (0);
-}
-
 int	ft_strcmp(char *s1, char *s2)
 {
 	unsigned int i;

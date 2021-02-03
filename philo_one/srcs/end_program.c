@@ -12,48 +12,35 @@
 
 #include "philo_one.h"
 
-void	wait_for_all_threads(t_args *args)
-{
-	int	i;
-
-	i = -1;
-	while (++i < args->nb_philo)
-		pthread_join(args->philo[i].control, NULL);
-	i = -1;
-	while (++i < args->nb_philo)
-		pthread_join(args->philo[i].thread, NULL);
-}
-
 void	destroy_mutexes(t_args *args)
 {
 	int	i;
 
 	i = -1;
-	while (++i < args->nb_philo)
+	while (++i < args->var.nb)
 	{
 		pthread_mutex_unlock(&args->philo[i].state);
 		pthread_mutex_unlock(&args->forks[i]);
 		pthread_mutex_destroy(&args->philo[i].state);
 		pthread_mutex_destroy(&args->forks[i]);
 	}
-	pthread_mutex_unlock(&args->channel);
-	pthread_mutex_destroy(&args->channel);
+	pthread_mutex_unlock(&args->var.channel);
+	pthread_mutex_destroy(&args->var.channel);
 }
 
-int		clean_and_exit(t_args *args, int to_free, char *str)
+int		clear(t_args *args, char *str)
 {
-	int	i;
+	int i;
 
-	if (to_free)
+	i = -1;
+	destroy_mutexes(args);
+	if (args->var.quit)
+		free(args->var.quit);
+	if (args->philo)
 	{
-		if (to_free > 1)
-		{
-			i = -1;
-			while (++i < args->nb_philo)
-				free(args->philo[i].name);
-			free(args->philo);
-		}
-		free(args->forks);
+		while (++i < args->var.nb)
+			free(args->philo[i].name);	
+		free(args->philo);
 	}
 	write(2, str, ft_strlen(str));
 	write(2, "\n", 1);
