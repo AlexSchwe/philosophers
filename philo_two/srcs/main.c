@@ -26,7 +26,7 @@ void	*philo_control(void *arg)
 		if (philo->death >= time_death)
 		{
 			sem_post(philo->state);
-			usleep(2500);
+			usleep(philo->death - time_death);
 		}
 		else
 		{
@@ -49,7 +49,7 @@ void	*philo_life(void *arg)
 		handle_fork(philo);
 		handle_fork(philo);
 		sem_wait(philo->state);
-		philo->death = philo->last_time + philo->var.time_die;
+		philo->death = get_time() - philo->var.start + philo->var.time_die;
 		sem_post(philo->state);
 		handle_eat(philo);
 		if (philo->var.round-- == 0 && *philo->var.quit > 0)

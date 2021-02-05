@@ -14,10 +14,14 @@
 
 void	handle_eat(t_philo *philo)
 {
+	unsigned long time_now;
+
 	pthread_mutex_lock(&philo->state);
+	time_now = get_time_since_start(philo->var);
+	philo->death = time_now + philo->var.time_die;
+	pthread_mutex_unlock(&philo->state);
 	display_action(philo, EAT);
 	sleep_philo(philo, philo->var.time_eat);
-	pthread_mutex_unlock(&philo->state);
 	pthread_mutex_unlock(philo->fork_right);
 	pthread_mutex_unlock(philo->fork_left);
 }
@@ -35,6 +39,23 @@ void	handle_sleep(t_philo *philo)
 	sleep_philo(philo, philo->var.time_sleep);
 }
 
+int				sleep_philo(t_philo *philo, unsigned long time_sleep)
+{
+	unsigned long time_wake;
+	time_wake = get_time_since_start(philo->var) + time_sleep;
+//	printf("should wake up at %lu\n", time_wake);
+	time_wake++;
+	usleep(time_sleep * 1000);
+//	printf("In %lu, sleep for %lu\n", time_now, philo->last_time + time_sleep
+//	- time_now);
+//	usleep((philo->last_time + time_sleep
+//	- time_now) * 1000);
+//	printf("woke up at %lu\n", get_time_since_start(philo->var));
+//	printf("ended at %lu\n", get_time_since_start(philo->var));
+	//update_last(philo, time_sleep);
+	return (0);
+}
+
 /*
 *** Affiche l'action via un seul write,
 *** pour limiter les appels sytèmes (syscalls)
@@ -45,11 +66,13 @@ void	display_action(t_philo *philo, char *action)
 	char	*to_print;
 	char	buffer[SIZE_BUFF];
 	int		i;
+	unsigned long time_since;
 
-	if (!*philo->var.quit)
-		return ;
+	pthread_mutex_lock(&philo->var.channel);
+	time_since = get_time_since_start(philo->var);
+	philo->last_time = time_since;	
 	i = -1;
-	to_print = ft_itoa(philo->last_time);
+	to_print = ft_itoa(time_since);
 	while (to_print[++i])
 		buffer[i] = to_print[i];
 	buffer[i] = ' ';
@@ -61,8 +84,8 @@ void	display_action(t_philo *philo, char *action)
 	while (*action)
 		buffer[++i] = *action++;
 	buffer[++i] = '\n';
-	pthread_mutex_lock(&philo->var.channel);
-	write(1, buffer, i);
+	if (*philo->var.quit)
+		write(1, buffer, i);
 	if (ft_strcmp(action, DEATH))
 		pthread_mutex_unlock(&philo->var.channel);
 }

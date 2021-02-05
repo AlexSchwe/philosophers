@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
 #include "philo_one.h"
 
 void	*philo_control(void *arg)
@@ -20,6 +19,7 @@ void	*philo_control(void *arg)
 
 	philo = (t_philo *)arg;
 	philo->death += philo->var.time_die;
+	time_death = get_time_since_start(philo->var);
 	while (*philo->var.quit)
 	{
 		time_death = get_time_since_start(philo->var);
@@ -27,11 +27,10 @@ void	*philo_control(void *arg)
 		if (philo->death >= time_death)
 		{
 			pthread_mutex_unlock(&philo->state);
-			usleep(2000);
+			usleep(philo->death - time_death);
 		}
 		else
 		{
-			philo->last_time = time_death;
 			display_action(philo, DEATH);
 			*philo->var.quit = 0;
 			pthread_mutex_unlock(&philo->state);
@@ -49,9 +48,6 @@ void	*philo_life(void *arg)
 	{
 		handle_fork(philo, philo->fork_right);
 		handle_fork(philo, philo->fork_left);
-		pthread_mutex_lock(&philo->state);
-		philo->death = philo->last_time + philo->var.time_die;
-		pthread_mutex_unlock(&philo->state);
 		handle_eat(philo);
 		if (philo->var.round-- == 0 && *philo->var.quit > 0)
 			*philo->var.quit -= 1;

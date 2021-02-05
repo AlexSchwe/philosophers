@@ -57,17 +57,10 @@ unsigned long	get_time(void)
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
-void			update_last(t_philo *philo, unsigned long time_sleep)
-{
-	philo->last_time += time_sleep;
-}
-
 int				sleep_philo(t_philo *philo, unsigned long time_sleep)
 {
 	if (!(*philo->var.quit))
 		return (0);
-	usleep((philo->last_time + time_sleep
-	- (get_time() - philo->var.start)) * 1000);
-	update_last(philo, time_sleep);
+	usleep(time_sleep * 1000);
 	return (0);
 }
