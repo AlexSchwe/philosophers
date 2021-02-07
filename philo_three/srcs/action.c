@@ -14,24 +14,46 @@
 
 void	handle_eat(t_philo *philo)
 {
-	sem_wait(philo->state);
 	display_action(philo, EAT);
-	sleep_philo(philo, philo->var.time_eat);
-	sem_post(philo->state);
+	sleep_philo(philo->var.time_eat);
 	sem_post(philo->var.forks);
 	sem_post(philo->var.forks);
 }
 
 void	handle_fork(t_philo *philo)
 {
-	philo->last_time = get_time_since_start(philo->var);
 	display_action(philo, FORK);
+	sem_wait(philo->var.forks);
 }
 
 void	handle_sleep(t_philo *philo)
 {
 	display_action(philo, SLEEP);
-	sleep_philo(philo, philo->var.time_sleep);
+	sleep_philo(philo->var.time_sleep);
+}
+
+int		ft_write_nb(char *buf, unsigned long u)
+{
+	unsigned long	nb;
+	size_t			size;
+	size_t			i;
+
+	nb = u;
+	size = 0;
+	while (1)
+	{
+		size++;
+		if (!(nb /= 10))
+			break ;
+	}
+	i = size;
+	while (1)
+	{
+		buf[--i] = '0' + (u % 10);
+		if (!(u /= 10))
+			break ;
+	}
+	return (size);
 }
 
 /*
@@ -47,12 +69,9 @@ void	display_action(t_philo *philo, char *action)
 	int		death;
 
 	i = -1;
-	death = ft_strcmp(action, DEATH);
-	to_print = ft_itoa(philo->last_time);
-	while (to_print[++i])
-		buffer[i] = to_print[i];
+	death = !ft_strcmp(action, DEATH);
+	i = ft_write_nb(buffer, get_time_since_start(philo->var));
 	buffer[i] = ' ';
-	free(to_print);
 	to_print = philo->name;
 	while (*to_print)
 		buffer[++i] = *to_print++;
@@ -62,6 +81,6 @@ void	display_action(t_philo *philo, char *action)
 	buffer[++i] = '\n';
 	sem_wait(philo->var.channel);
 	write(1, buffer, i);
-	if (death)
+	if (!death)
 		sem_post(philo->var.channel);
 }

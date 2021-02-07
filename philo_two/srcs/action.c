@@ -34,6 +34,30 @@ void	handle_sleep(t_philo *philo)
 	sleep_philo(philo, philo->var.time_sleep);
 }
 
+int		ft_write_nb(char *buf, unsigned long u)
+{
+	unsigned long	nb;
+	size_t			size;
+	size_t			i;
+
+	nb = u;
+	size = 0;
+	while (1)
+	{
+		size++;
+		if (!(nb /= 10))
+			break ;
+	}
+	i = size;
+	while (1)
+	{
+		buf[--i] = '0' + (u % 10);
+		if (!(u /= 10))
+			break ;
+	}
+	return (size);
+}
+
 /*
 *** Affiche l'action via un seul write,
 *** pour limiter les appels sytèmes (syscalls)
@@ -48,12 +72,8 @@ void	display_action(t_philo *philo, char *action)
 	if (!(*philo->var.quit))
 		return ;
 	sem_wait(philo->var.channel);
-	i = -1;
-	to_print = ft_itoa(get_time() - philo->var.start);
-	while (to_print[++i])
-		buffer[i] = to_print[i];
+	i = ft_write_nb(buffer, get_time() - philo->var.start);
 	buffer[i] = ' ';
-	free(to_print);
 	to_print = philo->name;
 	while (*to_print)
 		buffer[++i] = *to_print++;

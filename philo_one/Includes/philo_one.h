@@ -98,7 +98,7 @@ int						ft_atoi(const char *str);
 
 int						check_arg(int argc, char **argv, t_args *args);
 
-int						sleep_philo(t_philo *philo, unsigned long time_sleep);
+int						sleep_philo(unsigned long time_sleep);
 
 int						check_death(unsigned long time_death);
 

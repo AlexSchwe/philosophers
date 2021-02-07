@@ -80,8 +80,6 @@ void					wait_for_all_threads(t_args *args);
 
 int						order(long int n);
 
-void					update_last(t_philo *philo, unsigned long time_sleep);
-
 char					*ft_write(char *res, long int n, int size);
 
 char					*ft_itoa(int nb);
@@ -94,7 +92,7 @@ int						ft_atoi(const char *str);
 
 int						check_arg(int argc, char **argv, t_args *args);
 
-int						sleep_philo(t_philo *philo, unsigned long time_sleep);
+int						sleep_philo(unsigned long time_sleep);
 
 int						check_death(unsigned long time_death);
 

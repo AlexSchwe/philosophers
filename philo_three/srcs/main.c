@@ -35,12 +35,11 @@ void	*philo_control(void *arg)
 	time_death = get_time_since_start(philo->var);
 	while (philo->death >= time_death)
 	{
-		time_death = get_time_since_start(philo->var);
 		sem_post(philo->state);
-		usleep(1000);
+		usleep(philo->death - time_death);
 		sem_wait(philo->state);
+		time_death = get_time_since_start(philo->var);
 	}
-	philo->last_time = time_death;
 	display_action(philo, DEATH);
 	sem_post(philo->state);
 	i = -1;
@@ -54,13 +53,12 @@ void	*philo_life(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	philo->last_time = get_time_since_start(philo->var);
 	while (1)
 	{
 		handle_fork(philo);
 		handle_fork(philo);
 		sem_wait(philo->state);
-		philo->death = philo->last_time + philo->var.time_die;
+		philo->death = get_time_since_start(philo->var) + philo->var.time_die;
 		sem_post(philo->state);
 		handle_eat(philo);
 		if (philo->var.round-- == 0)

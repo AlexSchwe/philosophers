@@ -61,3 +61,9 @@ void			update_last(t_philo *philo, unsigned long time_sleep)
 {
 	philo->last_time += time_sleep;
 }
+
+int				sleep_philo(unsigned long time_sleep)
+{
+	usleep(time_sleep * 1000);
+	return (0);
+}
