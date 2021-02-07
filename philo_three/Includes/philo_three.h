@@ -47,6 +47,7 @@ typedef struct			s_var
 	sem_t				*channel;
 	sem_t				*forks;
 	sem_t				*alive;
+	sem_t				*prio;
 }						t_var;
 
 typedef struct			s_philo

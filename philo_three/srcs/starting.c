@@ -49,6 +49,9 @@ void	start_semaphores(t_args *args)
 	args->var.alive = open_new_semaphore("/alive", 0);
 	if (!args->var.alive)
 		clear(args, "Failed to open semaphore : alive");
+	args->var.prio = open_new_semaphore("/prio", 1);
+	if (!args->var.prio)
+		clear(args, "Failed to open semaphore : prio");
 	i = -1;
 	while (++i < args->var.nb)
 	{

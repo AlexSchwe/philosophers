@@ -25,6 +25,9 @@ void	destroy_semaphores(t_args *args)
 	sem_unlink("/alive");
 	if (args->var.alive)
 		sem_close(args->var.alive);
+	sem_unlink("/prio");
+	if (args->var.prio)
+		sem_close(args->var.prio);
 	if (args->var.nb > 1)
 	{
 		i = -1;

@@ -22,8 +22,8 @@ void	handle_eat(t_philo *philo)
 
 void	handle_fork(t_philo *philo)
 {
-	display_action(philo, FORK);
 	sem_wait(philo->var.forks);
+	display_action(philo, FORK);
 }
 
 void	handle_sleep(t_philo *philo)

@@ -28,7 +28,6 @@ OBJS =	$(addprefix $(OBJDIR)/, $(SRCS:.c=.o))
 DPDCS =	$(OBJS:.o=.d)
 
 CFLAGS = -Wall -Wextra -Werror -pthread
-# -g3 -fsanitize=address -fno-omit-frame-pointer
 
 opti:
 	@make -j all

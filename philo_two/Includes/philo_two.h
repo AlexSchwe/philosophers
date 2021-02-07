@@ -45,6 +45,7 @@ typedef struct			s_var
 	int					round;
 	sem_t				*forks;
 	sem_t				*channel;
+	sem_t				*prio;
 	unsigned long		*last;
 	unsigned long		start;
 }						t_var;

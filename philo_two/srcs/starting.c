@@ -47,6 +47,9 @@ void	start_semaphores(t_args *args)
 	args->var.channel = open_new_semaphore("/channel", 1);
 	if (!args->var.channel)
 		clear(args, "Failed to open semaphore : channel");
+	args->var.prio = open_new_semaphore("/prio", 1);
+	if (!args->var.prio)
+		clear(args, "Failed to open semaphore : prio");
 	i = -1;
 	while (++i < args->var.nb)
 	{

@@ -55,8 +55,10 @@ void	*philo_life(void *arg)
 	philo = (t_philo *)arg;
 	while (1)
 	{
+		sem_wait(philo->var.prio);
 		handle_fork(philo);
 		handle_fork(philo);
+		sem_post(philo->var.prio);
 		sem_wait(philo->state);
 		philo->death = get_time_since_start(philo->var) + philo->var.time_die;
 		sem_post(philo->state);
