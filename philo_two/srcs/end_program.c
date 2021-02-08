@@ -27,13 +27,13 @@ void	destroy_semaphores(t_args *args, int nb_philo)
 		sem_unlink("/prio");
 		if (args->var.prio)
 			sem_close(args->var.prio);
-			i = -1;
-			while (++i < nb_philo)
-			{
-				sem_unlink(args->philo[i].name);
-				if ((args->philo[i].state))
-					sem_close(args->philo[i].state);
-			}
+		i = -1;
+		while (++i < nb_philo)
+		{
+			sem_unlink(args->philo[i].name);
+			if ((args->philo[i].state))
+				sem_close(args->philo[i].state);
+		}
 	}
 }
 
