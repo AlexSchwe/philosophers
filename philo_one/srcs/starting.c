@@ -27,7 +27,7 @@ int		check_arg(int argc, char **argv, t_args *args)
 		return (clear(args, EAT_ERROR));
 	if ((var.time_sleep = ft_atoi(argv[4])) <= 0)
 		return (clear(args, SLEEP_ERROR));
-	if (argv[5] && ((var.round = ft_atoi(argv[5])) <= 0))
+	if (argv[5] && ((var.round = ft_atoi(argv[5]) - 1) < 0))
 		return (clear(args, ROUND_ERROR));
 	if (!(args->forks = malloc(sizeof(pthread_mutex_t) * var.nb)))
 		return (clear(args, strerror(errno)));
